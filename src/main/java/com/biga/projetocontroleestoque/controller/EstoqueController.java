@@ -56,16 +56,7 @@ public class EstoqueController {
 
     @GetMapping("/consultarEstoque/{idProduto}")
     public ResponseEntity<String> consultarEstoque(@PathVariable Integer idProduto) {
-        Produto produto = produtoRepository.findById(Long.valueOf(idProduto)).orElse(null);
-
-        if (produto == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok("ID: " + produto.getId() +
-                ", Nome: " + produto.getNome() +
-                ", Valor: " + produto.getValor() +
-                ", Quantidade: " + produto.getQuantidade());
+        return produtoService.procuraProdutoNoEstoque(idProduto);
     }
 }
 

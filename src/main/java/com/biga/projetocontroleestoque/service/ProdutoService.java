@@ -2,6 +2,7 @@ package com.biga.projetocontroleestoque.service;
 
 import com.biga.projetocontroleestoque.entity.Produto;
 import com.biga.projetocontroleestoque.repository.ProdutoRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,4 +21,17 @@ public class ProdutoService {
     }
 
     public void criarNovoProduto(Produto produto) { produtoRepository.save(produto); }
+
+    public ResponseEntity<String> procuraProdutoNoEstoque(Integer id) {
+        Produto produto = produtoRepository.findById(Long.valueOf(id)).orElse(null);
+
+        if (produto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok("ID: " + produto.getId() +
+                ", Nome: " + produto.getNome() +
+                ", Valor: " + produto.getValor() +
+                ", Quantidade: " + produto.getQuantidade());
+    }
 }
