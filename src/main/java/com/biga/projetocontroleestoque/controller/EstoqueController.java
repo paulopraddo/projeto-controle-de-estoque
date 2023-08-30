@@ -13,7 +13,6 @@ import java.util.List;
 
 @RequestMapping("/estoque")
 @RestController
-
 public class EstoqueController {
 
     private final ProdutoService produtoService;
@@ -42,12 +41,6 @@ public class EstoqueController {
         return produtoService.listeProdutos();
     }
 
-
-    @GetMapping("/inserirProdutos")
-    public String carregaPaginaInserirProdutos() {
-
-        return "estoque/formulario";
-    }
     @PostMapping("/inserirProdutos")
     public ResponseEntity<String> createProduct(@RequestBody Produto produto) {
         produtoService.criarNovoProduto(produto);
