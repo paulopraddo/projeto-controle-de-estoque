@@ -23,9 +23,6 @@ public class EstoqueController {
         this.produtoService = produtoService;
     }
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
-
     @GetMapping
     public String paginaInicial() {
         return """
