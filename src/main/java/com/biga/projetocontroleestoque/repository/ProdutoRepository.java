@@ -12,7 +12,19 @@ import org.springframework.stereotype.Repository;
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Modifying
-    @Query(value = "UPDATE tbproduto SET quantidade = :quantidade WHERE id = :id", nativeQuery = true)
-    void atualizarQuantidade(@Param("quantidade") Integer quantidade, @Param("id") Integer id);
+    @Transactional
+    @Query(value = "UPDATE TBPRODUTO SET quantidade = :quantidade WHERE id = :id", nativeQuery = true)
+    void atualizarQuantidade(@Param("id") Integer id, @Param("quantidade") Integer quantidade);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TBPRODUTO SET NOME = :nome WHERE id = :id", nativeQuery = true)
+    void atualizarNome(@Param("id") Integer id, @Param("nome") String nome);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TBPRODUTO SET VALOR = :valor WHERE id = :id", nativeQuery = true)
+    void atualizarValor(@Param("id") Integer id, @Param("valor") Double valor);
+
 }
 

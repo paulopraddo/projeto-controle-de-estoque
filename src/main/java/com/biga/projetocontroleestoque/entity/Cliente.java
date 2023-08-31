@@ -1,12 +1,18 @@
 package com.biga.projetocontroleestoque.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "TBCLIENTES")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Data
 public class Cliente {
 
     @Id
@@ -19,31 +25,4 @@ public class Cliente {
     @Column(name = "IDADE")
     private String idade;
 
-    public Cliente() {}
-
-    public Cliente(String nome, String idade) {
-        this.nome = nome;
-        this.idade = idade;
-
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getIdade() {
-        return idade;
-    }
-
-    public void setIdade(String idade) {
-        this.idade = idade;
-    }
-
-    public Integer getId() {
-        return id;
-    }
 }

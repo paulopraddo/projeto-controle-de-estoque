@@ -5,6 +5,7 @@ import com.biga.projetocontroleestoque.entity.Produto;
 import com.biga.projetocontroleestoque.repository.ProdutoRepository;
 import com.biga.projetocontroleestoque.service.ProdutoService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,10 @@ import java.util.List;
 
 @RequestMapping("/estoque")
 @RestController
+@AllArgsConstructor
 public class EstoqueController {
 
     private final ProdutoService produtoService;
-
-    @Autowired
-    public EstoqueController(ProdutoService produtoService) {
-        this.produtoService = produtoService;
-    }
 
     @GetMapping
     public String paginaInicial() {
@@ -55,11 +52,12 @@ public class EstoqueController {
     }
 
     @Transactional
-    @PostMapping("/realizarBaixaDeProduto/{produtoId}/baixa")
+    @PostMapping("/atualizarQuantidade/id/{produtoId}/quantidade/{quantidade}")
     public String realizarBaixaDeProduto(
             @PathVariable Integer produtoId,
-            @RequestParam Integer quantidade) {
-        return produtoService.realizarBaixaDeProduto(produtoId, quantidade);
+            @PathVariable Integer quantidade) {
+        produtoService.atualizarQuantidade(produtoId,quantidade);
+        return "Baixa realizada com sucesso";
     }
 
     @GetMapping("/verificaQuantidade/{idProduto}")
