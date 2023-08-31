@@ -4,6 +4,7 @@ package com.biga.projetocontroleestoque.controller;
 import com.biga.projetocontroleestoque.entity.Produto;
 import com.biga.projetocontroleestoque.repository.ProdutoRepository;
 import com.biga.projetocontroleestoque.service.ProdutoService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,6 @@ import java.util.List;
 public class EstoqueController {
 
     private final ProdutoService produtoService;
-
 
     @Autowired
     public EstoqueController(ProdutoService produtoService) {
@@ -45,8 +45,26 @@ public class EstoqueController {
     }
 
     @GetMapping("/consultarEstoque/{idProduto}")
-    public ResponseEntity<String> consultarEstoque(@PathVariable Integer idProduto) {
+    public ResponseEntity<String> consultarEstoque(@PathVariable Long idProduto) {
         return produtoService.procuraProdutoNoEstoque(idProduto);
+    }
+
+    @GetMapping("/excluirProduto/{idProduto}")
+    public ResponseEntity<String> excluirProduto(@PathVariable Long idProduto) {
+        return produtoService.excluiProduto(idProduto);
+    }
+
+    @Transactional
+    @PostMapping("/realizarBaixaDeProduto/{produtoId}/baixa")
+    public String realizarBaixaDeProduto(
+            @PathVariable Integer produtoId,
+            @RequestParam Integer quantidade) {
+        return produtoService.realizarBaixaDeProduto(produtoId, quantidade);
+    }
+
+    @GetMapping("/verificaQuantidade/{idProduto}")
+    public ResponseEntity<String> verificaQuantidadeProduto(@PathVariable Long idProduto) {
+        return produtoService.verificarQuantidadeDeProduto(idProduto);
     }
 }
 

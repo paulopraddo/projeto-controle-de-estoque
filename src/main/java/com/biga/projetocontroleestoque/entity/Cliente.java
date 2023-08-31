@@ -2,6 +2,9 @@ package com.biga.projetocontroleestoque.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "TBCLIENTES")
 public class Cliente {

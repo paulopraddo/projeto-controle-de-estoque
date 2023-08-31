@@ -2,6 +2,8 @@ package com.biga.projetocontroleestoque.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 
 @Entity
 @Table(name = "TBPRODUTO")
@@ -46,8 +48,24 @@ public class Produto {
                 return quantidade;
         }
 
+        public void setQuantidade(int novaQuantidade) {}
+
         @Override
         public String toString() {
                 return "Produto - ID: " + id + ", Nome: " + nome + ", Valor: " + valor + ", Quantidade: " + quantidade ;
         }
+
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Produto produto = (Produto) o;
+                return Objects.equals(id, produto.id);
+        }
+
+        @Override
+        public int hashCode() {
+                return Objects.hash(id);
+        }
+
 }
