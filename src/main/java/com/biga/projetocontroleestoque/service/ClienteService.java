@@ -2,17 +2,17 @@ package com.biga.projetocontroleestoque.service;
 
 import com.biga.projetocontroleestoque.entity.Cliente;
 import com.biga.projetocontroleestoque.repository.ClienteRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
-
-    public ClienteService(ClienteRepository clienteRepository) { this.clienteRepository = clienteRepository; }
 
     public List<Cliente> listarClientes() { return clienteRepository.findAll(); }
 
