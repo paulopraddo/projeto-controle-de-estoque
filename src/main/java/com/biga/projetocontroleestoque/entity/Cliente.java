@@ -25,4 +25,7 @@ public class Cliente {
     @Column(name = "IDADE")
     private String idade;
 
+    @Column(name = "COMPRASREALIZADAS")
+    private Integer comprasRealizadas;
+
 }

@@ -25,6 +25,5 @@ public class Compra {
 
     private int quantidade;
 
-    // Getters and setters
 }
 
