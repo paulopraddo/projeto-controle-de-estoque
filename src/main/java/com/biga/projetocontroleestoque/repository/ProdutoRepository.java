@@ -26,5 +26,10 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query(value = "UPDATE TBPRODUTO SET VALOR = :valor WHERE id = :id", nativeQuery = true)
     void atualizarValor(@Param("id") Integer id, @Param("valor") Double valor);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE TBPRODUTO SET QUANTIDADE = :quantidade WHERE id = :id", nativeQuery = true)
+    void baixaDeProduto(@Param("id") Integer id, @Param("quantidade") Integer quantidade);
+
 }
 

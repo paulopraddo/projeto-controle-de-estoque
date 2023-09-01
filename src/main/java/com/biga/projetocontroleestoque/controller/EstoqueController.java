@@ -2,11 +2,10 @@ package com.biga.projetocontroleestoque.controller;
 
 
 import com.biga.projetocontroleestoque.entity.Produto;
-import com.biga.projetocontroleestoque.repository.ProdutoRepository;
+import com.biga.projetocontroleestoque.service.CompraService;
 import com.biga.projetocontroleestoque.service.ProdutoService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,16 +52,25 @@ public class EstoqueController {
 
     @Transactional
     @PostMapping("/atualizarQuantidade/id/{produtoId}/quantidade/{quantidade}")
-    public String realizarBaixaDeProduto(
+    public String atualizarQuantidadeProduto(
             @PathVariable Integer produtoId,
             @PathVariable Integer quantidade) {
         produtoService.atualizarQuantidade(produtoId,quantidade);
-        return "Baixa realizada com sucesso";
+        return "Valor atualizado com sucesso";
     }
 
     @GetMapping("/verificaQuantidade/{idProduto}")
     public ResponseEntity<String> verificaQuantidadeProduto(@PathVariable Long idProduto) {
         return produtoService.verificarQuantidadeDeProduto(idProduto);
     }
+
+    @PostMapping("/realizarBaixaDeProduto/id/{produtoId}/quantidade/{quantidade}")
+    public String realizarBaixaDeProduto(
+            @PathVariable Integer produtoId,
+            @PathVariable Integer quantidade) {
+        produtoService.baixaDeProduto(produtoId,quantidade);
+        return "Baixa realizada com sucesso";
+    }
+
 }
 

@@ -14,14 +14,5 @@ public class TestController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    @PostMapping("/insert")
-    public String testInsert() {
-        // Criar um objeto Produto com valores fixos
-        Produto produto = new Produto("Produto de Teste", 9.99, 10);
 
-        // Salvar o produto no banco de dados usando o repositório
-        produtoRepository.save(produto);
-
-        return "Produto inserido com sucesso!";
-    }
 }

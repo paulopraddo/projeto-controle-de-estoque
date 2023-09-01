@@ -59,5 +59,11 @@ public class ProdutoService {
         return ResponseEntity.ok(produto.getNome() + ": " + produto.getQuantidade());
     }
 
-
+    public void baixaDeProduto(Integer idProduto, Integer quantidade) {
+        Produto produto = produtoRepository.findById(Long.valueOf(idProduto)).orElse(null);
+        if (produto.getQuantidade() >= quantidade) {
+            Integer novaQuantidade = produto.getQuantidade() - quantidade;
+            produtoRepository.baixaDeProduto(idProduto, novaQuantidade);
+        }
+    }
 }
