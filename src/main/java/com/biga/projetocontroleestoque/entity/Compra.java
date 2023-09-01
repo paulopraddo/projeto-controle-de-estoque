@@ -3,6 +3,8 @@ package com.biga.projetocontroleestoque.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,6 +30,10 @@ public class Compra {
 
     @Column(name = "VALORPRODUTO")
     private Double valorDoProduto;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATADACOMPRA")
+    private Date dataHoraCompra;
 
     private int quantidade;
 

@@ -3,6 +3,7 @@ package com.biga.projetocontroleestoque.service;
 import com.biga.projetocontroleestoque.entity.Cliente;
 import com.biga.projetocontroleestoque.entity.Compra;
 import com.biga.projetocontroleestoque.entity.Produto;
+import com.biga.projetocontroleestoque.model.DadosCompra;
 import com.biga.projetocontroleestoque.repository.ClienteRepository;
 import com.biga.projetocontroleestoque.repository.CompraRepository;
 import com.biga.projetocontroleestoque.repository.ProdutoRepository;
@@ -10,6 +11,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -24,11 +28,11 @@ public class CompraService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public void realizarCompra(Long clienteId, Long produtoId, Integer quantidade) {
-        Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
-        Produto produto = produtoRepository.findById(produtoId).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
+    public void realizarCompra(DadosCompra dadosCompra) {
+        Cliente cliente = clienteRepository.findById(dadosCompra.getClienteId()).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        Produto produto = produtoRepository.findById(dadosCompra.getProdutoId()).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
 
-        if (produto.getQuantidade() < quantidade) {
+        if (produto.getQuantidade() < dadosCompra.getQuantidade()) {
             throw new RuntimeException("Estoque insuficiente");
         }
 
@@ -37,14 +41,37 @@ public class CompraService {
         Compra compra = new Compra();
         compra.setCliente(cliente);
         compra.setProduto(produto);
-        compra.setQuantidade(quantidade);
-        compra.setValorDaCompra(quantidade * valorDoProduto);
+        compra.setQuantidade(dadosCompra.getQuantidade());
+        compra.setValorDaCompra(dadosCompra.getQuantidade() * valorDoProduto);
         compra.setValorDoProduto(valorDoProduto);
+        compra.setDataHoraCompra(new Date());
 
-        produto.setQuantidade(produto.getQuantidade() - quantidade);
+        produto.setQuantidade(produto.getQuantidade() - dadosCompra.getQuantidade());
         produtoRepository.save(produto);
 
         compraRepository.save(compra);
+    }
+
+    public String exibirComprasCliente(Long idCliente) {
+        Cliente cliente = clienteRepository.findById(idCliente).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+
+        List<Compra> comprasDoCliente = compraRepository.findByCliente(cliente);
+
+        String retorno = null;
+        if (comprasDoCliente.isEmpty()) {
+            return ("O cliente não fez nenhuma compra.");
+        } else {
+            System.out.println("Compras do cliente " + cliente.getNome() + ":");
+            for (Compra compra : comprasDoCliente) {
+                retorno = "ID da Compra: " + compra.getId() +
+                "Data e Hora da Compra: " + compra.getDataHoraCompra() +
+                "Produto: " + compra.getProduto().getNome() +
+                "Quantidade: " + compra.getQuantidade() +
+                "Valor da Compra: " + compra.getValorDaCompra() +
+                "--------------------------------------";
+            }
+        }
+        return retorno;
     }
 }
 

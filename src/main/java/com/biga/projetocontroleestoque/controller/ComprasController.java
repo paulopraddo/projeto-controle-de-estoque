@@ -14,12 +14,12 @@ public class ComprasController {
 
     @PostMapping("/realizarCompra")
     public String realizarCompra(@RequestBody DadosCompra dadosCompra) {
-        Long clienteId = dadosCompra.getClienteId();
-        Long produtoId = dadosCompra.getProdutoId();
-        Integer quantidade = dadosCompra.getQuantidade();
-
-        compraService.realizarCompra(clienteId, produtoId, quantidade);
-
+        compraService.realizarCompra(dadosCompra);
         return "Compra realizada com sucesso";
+    }
+
+    @GetMapping("/exibirComprasCliente/{idCliente}")
+    public String exibirComprasCliente(@PathVariable Long idCliente) {
+        return compraService.exibirComprasCliente(idCliente);
     }
 }
