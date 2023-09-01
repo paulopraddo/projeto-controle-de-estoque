@@ -28,16 +28,9 @@ public class CompraService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    public void realizarCompra(DadosCompra dadosCompra) {
-        Cliente cliente = clienteRepository.findById(dadosCompra.getClienteId()).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
-        Produto produto = produtoRepository.findById(dadosCompra.getProdutoId()).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
-
-        if (produto.getQuantidade() < dadosCompra.getQuantidade()) {
-            throw new RuntimeException("Estoque insuficiente");
-        }
+    public Compra criarCompra(Cliente cliente, Produto produto, DadosCompra dadosCompra) {
 
         Double valorDoProduto = produto.getValor();
-
         Compra compra = new Compra();
         compra.setCliente(cliente);
         compra.setProduto(produto);
@@ -45,10 +38,23 @@ public class CompraService {
         compra.setValorDaCompra(dadosCompra.getQuantidade() * valorDoProduto);
         compra.setValorDoProduto(valorDoProduto);
         compra.setDataHoraCompra(new Date());
-
         produto.setQuantidade(produto.getQuantidade() - dadosCompra.getQuantidade());
         produtoRepository.save(produto);
 
+        return compra;
+    }
+
+    public void realizarCompra(DadosCompra dadosCompra) {
+        Cliente cliente = clienteRepository.findById(dadosCompra.getClienteId())
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+        Produto produto = produtoRepository.findById(dadosCompra.getProdutoId())
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
+
+        if (produto.getQuantidade() < dadosCompra.getQuantidade()) {
+            throw new RuntimeException("Estoque insuficiente");
+        }
+
+        Compra compra = criarCompra(cliente, produto, dadosCompra);
         compraRepository.save(compra);
     }
 
@@ -61,14 +67,12 @@ public class CompraService {
         if (comprasDoCliente.isEmpty()) {
             return ("O cliente não fez nenhuma compra.");
         } else {
-            System.out.println("Compras do cliente " + cliente.getNome() + ":");
             for (Compra compra : comprasDoCliente) {
                 retorno = "ID da Compra: " + compra.getId() +
                 "Data e Hora da Compra: " + compra.getDataHoraCompra() +
                 "Produto: " + compra.getProduto().getNome() +
                 "Quantidade: " + compra.getQuantidade() +
-                "Valor da Compra: " + compra.getValorDaCompra() +
-                "--------------------------------------";
+                "Valor da Compra: " + compra.getValorDaCompra();
             }
         }
         return retorno;

@@ -14,7 +14,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE TBPRODUTO SET quantidade = :quantidade WHERE id = :id", nativeQuery = true)
-    void atualizarQuantidade(@Param("id") Integer id, @Param("quantidade") Integer quantidade);
+    void atualizarQuantidade(@Param("id") Long id, @Param("quantidade") Integer quantidade);
 
     @Modifying
     @Transactional
@@ -29,7 +29,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE TBPRODUTO SET QUANTIDADE = :quantidade WHERE id = :id", nativeQuery = true)
-    void baixaDeProduto(@Param("id") Integer id, @Param("quantidade") Integer quantidade);
+    void baixaDeProduto(@Param("id") Long id, @Param("quantidade") Integer quantidade);
 
 }
 

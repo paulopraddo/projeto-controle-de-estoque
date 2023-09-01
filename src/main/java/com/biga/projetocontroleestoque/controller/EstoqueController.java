@@ -41,32 +41,31 @@ public class EstoqueController {
     }
 
     @GetMapping("/consultarEstoque/{idProduto}")
-    public ResponseEntity<String> consultarEstoque(@PathVariable Long idProduto) {
-        return produtoService.procuraProdutoNoEstoque(idProduto);
+    public String consultarEstoque(@PathVariable Long idProduto) {
+        return produtoService.exibeProdutoDoEstoque(idProduto);
     }
 
     @GetMapping("/excluirProduto/{idProduto}")
-    public ResponseEntity<String> excluirProduto(@PathVariable Long idProduto) {
-        return produtoService.excluiProduto(idProduto);
+    public String excluirProduto(@PathVariable Long idProduto) {
+        produtoService.excluiProduto(idProduto);
+        return "Produto deletado com sucesso";
     }
 
     @Transactional
     @PostMapping("/atualizarQuantidade/id/{produtoId}/quantidade/{quantidade}")
-    public String atualizarQuantidadeProduto(
-            @PathVariable Integer produtoId,
-            @PathVariable Integer quantidade) {
+    public String atualizarQuantidadeProduto(@PathVariable Long produtoId, @PathVariable Integer quantidade) {
         produtoService.atualizarQuantidade(produtoId,quantidade);
         return "Valor atualizado com sucesso";
     }
 
     @GetMapping("/verificaQuantidade/{idProduto}")
-    public ResponseEntity<String> verificaQuantidadeProduto(@PathVariable Long idProduto) {
+    public String verificaQuantidadeProduto(@PathVariable Long idProduto) {
         return produtoService.verificarQuantidadeDeProduto(idProduto);
     }
 
     @PostMapping("/realizarBaixaDeProduto/id/{produtoId}/quantidade/{quantidade}")
     public String realizarBaixaDeProduto(
-            @PathVariable Integer produtoId,
+            @PathVariable Long produtoId,
             @PathVariable Integer quantidade) {
         produtoService.baixaDeProduto(produtoId,quantidade);
         return "Baixa realizada com sucesso";
