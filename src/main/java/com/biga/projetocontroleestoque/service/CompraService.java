@@ -32,10 +32,14 @@ public class CompraService {
             throw new RuntimeException("Estoque insuficiente");
         }
 
+        Double valorDoProduto = produto.getValor();
+
         Compra compra = new Compra();
         compra.setCliente(cliente);
         compra.setProduto(produto);
         compra.setQuantidade(quantidade);
+        compra.setValorDaCompra(quantidade * valorDoProduto);
+        compra.setValorDoProduto(valorDoProduto);
 
         produto.setQuantidade(produto.getQuantidade() - quantidade);
         produtoRepository.save(produto);

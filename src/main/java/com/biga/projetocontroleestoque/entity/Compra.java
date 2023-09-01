@@ -23,6 +23,12 @@ public class Compra {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    @Column(name = "VALORDACOMPRA")
+    private Double valorDaCompra;
+
+    @Column(name = "VALORPRODUTO")
+    private Double valorDoProduto;
+
     private int quantidade;
 
 }
