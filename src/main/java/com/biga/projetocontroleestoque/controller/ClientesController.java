@@ -13,17 +13,7 @@ import java.util.List;
 @RequestMapping("/cliente")
 public class ClientesController {
 
-    private final ClienteService clienteService;
-
-    @Autowired
-    public ClientesController(ClienteService clienteService) {
-        this.clienteService = clienteService;
-    }
-
-    @GetMapping
-    public String teste() {
-        return "Teste";
-    }
+    private ClienteService clienteService;
 
     @GetMapping("/listarClientes")
     public List<Cliente> listarClientes() {
@@ -31,9 +21,9 @@ public class ClientesController {
     }
 
     @PostMapping("/criarNovoCliente")
-    public ResponseEntity<String> criarNovoCliente(@RequestBody Cliente cliente) {
+    public String criarNovoCliente(@RequestBody Cliente cliente) {
         clienteService.criarNovoCliente(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Cliente criado com sucesso");
+        return "Cliente criado com sucesso";
     }
 
     @GetMapping("/consultarCliente/{idCliente}")

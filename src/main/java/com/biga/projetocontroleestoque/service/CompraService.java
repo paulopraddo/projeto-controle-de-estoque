@@ -52,10 +52,10 @@ public class CompraService {
 
         if (produto.getQuantidade() < dadosCompra.getQuantidade()) {
             throw new RuntimeException("Estoque insuficiente");
+        } else {
+            Compra compra = criarCompra(cliente, produto, dadosCompra);
+            compraRepository.save(compra);
         }
-
-        Compra compra = criarCompra(cliente, produto, dadosCompra);
-        compraRepository.save(compra);
     }
 
     public String exibirComprasCliente(Long idCliente) {

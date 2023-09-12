@@ -2,12 +2,9 @@ package com.biga.projetocontroleestoque.controller;
 
 
 import com.biga.projetocontroleestoque.entity.Produto;
-import com.biga.projetocontroleestoque.service.CompraService;
 import com.biga.projetocontroleestoque.service.ProdutoService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class EstoqueController {
 
-    private final ProdutoService produtoService;
+    private ProdutoService produtoService;
 
     @GetMapping
     public String paginaInicial() {
@@ -35,9 +32,9 @@ public class EstoqueController {
     }
 
     @PostMapping("/inserirProdutos")
-    public ResponseEntity<String> createProduct(@RequestBody Produto produto) {
+    public String criarProduto(@RequestBody Produto produto) {
         produtoService.criarNovoProduto(produto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Produto criado com sucesso");
+        return "Produto criado com sucesso";
     }
 
     @GetMapping("/consultarEstoque/{idProduto}")
